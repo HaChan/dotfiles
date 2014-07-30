@@ -1,0 +1,48 @@
+##### Windows #####
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Microsoft Office temp files
+~$*
+
+##### Linux #####
+.*
+!.gitconfig
+!.gitignore
+!.bash_aliases
+!.bash_profile
+!.ssh
+!.vim
+!.vimrc
+*~
+
+##### Editor #####
+
+# Emacs
+*~
+
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+.elc
+auto-save-list
+tramp
+
+.\#*
+
+# vim
+.*.sw[a-z]
+*.un~
+Session.vim
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml

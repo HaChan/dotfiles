@@ -1,0 +1,11 @@
+[user]
+	name = HaChan
+	email = hades.24791@gmail.com
+[color]
+        ui = true
+        branch = true
+    diff =true
+    interactive = true
+    status = true
+[core]
+	excludesfile = /home/hatt/.gitignore
