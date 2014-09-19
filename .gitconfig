@@ -2,10 +2,16 @@
 	name = HaChan
 	email = hades.24791@gmail.com
 [color]
-        ui = true
-        branch = true
-    diff =true
-    interactive = true
-    status = true
+  ui = true
+  branch = true
+  diff =true
+  interactive = true
+  status = true
 [core]
-	excludesfile = /home/hatt/.gitignore
+	excludesfile = ~/.gitignore
+[alias]
+  new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+  changes = diff --name-status -r
+  diffstat = diff --stat -r
+  gitkconflict = !gitk --left-right HEAD...MERGE_HEAD
+  updatepullreq = !sh -c 'git commit -a --amend && git push origin $1 -f' -

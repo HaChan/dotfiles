@@ -44,6 +44,8 @@ syntax on
 
 set hlsearch                  " turn off highlighting for searched expressions
 set incsearch                   " highlight as we search however
+hi Search guibg=peru guifg=wheat
+hi Search cterm=NONE ctermfg=green ctermbg=red
 "set matchtime=5                 " blink matching chars for .x seconds
 "set mouse=a                     " try to use a mouse in the console (wimp!)
 set ignorecase                  " set case insensitivity
@@ -64,9 +66,9 @@ set formatoptions=tcrql         " t - autowrap to textwidth
 set autoindent smartindent      " set the cursor at same indent as line above
 set smartindent                 " try to be smart about indenting (C-style)
 set expandtab                   " expand <Tab>s with spaces; death to tabs!
-set shiftwidth=4                " spaces for each step of (auto)indent
-set softtabstop=4               " set virtual tab stop (compat for 8-wide tabs)
-set tabstop=8                   " for proper display of files with tabs
+set shiftwidth=2                " spaces for each step of (auto)indent
+set softtabstop=2               " set virtual tab stop (compat for 8-wide tabs)
+set tabstop=2                   " for proper display of files with tabs
 set shiftround                  " always round indents to multiple of shiftwidth
 set copyindent                  " use existing indents for new indents
 set preserveindent              " save as much indent structure as possible
@@ -98,8 +100,10 @@ autocmd FileType html,xhtml,xml setlocal expandtab shiftwidth=2 tabstop=2 softta
 
 autocmd FileType html.erb setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+
 " CSS
-autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType css setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
 " JavaScript
 " autocmd BufRead,BufNewFile *.json setfiletype javascript
@@ -107,9 +111,9 @@ autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabsto
 let javascript_enable_domhtmlcss=1
 
 augroup HighlightTrailingSpaces
-autocmd!
-autocmd VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
-autocmd VimEnter,WinEnter * match TrailingSpaces /\s\+$/
+  autocmd!
+  autocmd VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
+  autocmd VimEnter,WinEnter * match TrailingSpaces /\s\+$/
 augroup END
 
 "------ END VIM-500 ------"
