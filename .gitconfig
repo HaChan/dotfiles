@@ -7,11 +7,30 @@
   diff =true
   interactive = true
   status = true
+[color "branch"]
+  current = yellow bold
+  local = green bold
+  remote = cyan bold
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
+[color "status"]
+  added = green bold
+  changed = yellow bold
+  untracked = red bold
 [core]
 	excludesfile = ~/.gitignore
+[diff]
+  tool = vimdiff
+  prompt = false
 [alias]
   new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
   changes = diff --name-status -r
   diffstat = diff --stat -r
   gitkconflict = !gitk --left-right HEAD...MERGE_HEAD
   updatepullreq = !sh -c 'git commit -a --amend && git push origin $1 -f' -
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  d = difftool

@@ -10,19 +10,26 @@ set t_Co=256
 set background=light
 "colors desert
 
+" pathogen config
+call pathogen#infect()
+call pathogen#helptags()
+
 set nocompatible                " break away from old vi compatibility
 set fileformats=unix,dos,mac    " support all three newline formats
 set viminfo=                    " don't use or save viminfo files
-
-" These two remove annoying blinking and noise
-set novisualbell
-set noerrorbells
+set encoding=utf-8
+set hidden                      " hides buffers instead of closing them (allow open a new file while on unwritten changed file)
+set history=1000                " remember more commands and search history
+set undolevels=1000             " use many muchos levels of undo
+set pastetoggle=<F2>            " when in insert mode, press <F2> to go to paste mode, where you can paste mass data that won't be autoindented
+set switchbuf=useopen           " reveal already opened files from the quickfix window instead of opening new buffers
 
 "------ Console UI & Text display ------"
-set cmdheight=1                 " explicitly set the height of the command line
+set cmdheight=2                 " explicitly set the height of the command line
 set showcmd                     " Show (partial) command in status line.
 set number                      " yay line numbers
 set ruler                       " show current position at bottom
+set novisualbell
 set noerrorbells                " don't whine
 set visualbell t_vb=            " and don't make faces
 set lazyredraw                  " don't redraw while in macros
@@ -34,10 +41,13 @@ set report=0                    " report back on all changes
 set shortmess=atI               " shorten messages and don't show intro
 set wildmenu                    " turn on wild menu :e <Tab>
 set wildmode=list:longest       " set wildmenu to list choice
+set wildignore=*.swp,*.bak,*.pyc,*.class
 set cul cuc                     " highlight current line
 "set cursorline cursorcolumn
-set colorcolumn=80
-"hi CursorLine term=none cterm=none ctermbg=0      " adjust color
+set colorcolumn=81
+hi CursorLine term=none cterm=none ctermbg=0
+hi CursorColumn term=none cterm=none ctermbg=0
+" adjust color
 syntax on
 
 "------ Text editing and searching behavior ------"
@@ -74,6 +84,77 @@ set copyindent                  " use existing indents for new indents
 set preserveindent              " save as much indent structure as possible
 filetype on
 filetype plugin indent on       " load filetype plugins and indent settings
+
+"------Miscellaneous------"
+set tags=./tags;
+
+""""""""""""""""""""""""""""""
+" => Visual mode related
+""""""""""""""""""""""""""""""
+
+" Visual mode pressing * or # searches for the current selection
+vnoremap <silent> * :call VisualSelection('f', '')<CR>
+vnoremap <silent> # :call VisualSelection('b', '')<CR>
+
+" Reselect text that was just pasted with ,v
+nnoremap <leader>v V`]
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Moving around, tabs, windows and buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Smart way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" Opens a new tab with the current buffer's path
+map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Editing mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+func! DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
+autocmd BufWrite *.* :call DeleteTrailingWS()
+
+"close parenthesis
+inoremap (      ()<Left>
+inoremap (<CR>  (<CR>)<Esc>O
+inoremap ((     (
+inoremap ()     ()
+
+" Complete whole filenames/lines with a quicker shortcut key in insert mode
+inoremap <C-f> <C-x><C-f>
+inoremap <C-l> <C-x><C-l>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Helper functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("Ack \"" . l:pattern . "\" " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
 
 "------ Filetypes ------"
 
