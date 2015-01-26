@@ -47,3 +47,5 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 
+# ctags
+tags
