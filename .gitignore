@@ -17,6 +17,7 @@ Desktop.ini
 !.ssh
 !.vim
 !.vimrc
+!.tmux.conf
 *~
 
 ##### Editor #####
