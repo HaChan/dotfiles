@@ -157,6 +157,7 @@ endfunction
 
 
 "------ Filetypes ------"
+runtime macros/matchit.vim
 
 " Vimscript
 autocmd FileType vim setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4
