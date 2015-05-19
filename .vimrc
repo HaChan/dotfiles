@@ -23,6 +23,7 @@ set history=1000                " remember more commands and search history
 set undolevels=1000             " use many muchos levels of undo
 set pastetoggle=<F2>            " when in insert mode, press <F2> to go to paste mode, where you can paste mass data that won't be autoindented
 set switchbuf=useopen           " reveal already opened files from the quickfix window instead of opening new buffers
+set undofile                    " create .un~ file when edit a file.
 
 "------ Console UI & Text display ------"
 set cmdheight=2                 " explicitly set the height of the command line
@@ -49,10 +50,28 @@ hi CursorLine term=none cterm=none ctermbg=0
 hi CursorColumn term=none cterm=none ctermbg=0
 " adjust color
 syntax on
+" set mispelled text highlight to underline
+hi clear SpellBad
+hi SpellBad cterm=underline
+" set region to US English
+set spelllang=en_us
+
+"------set what display in the status
+set statusline=%f "tail of the filename
+set statusline+=%h "help file flag
+set statusline+=%y "filetype
+set statusline+=%r "read only flag
+set statusline+=%m "modified flag
+set statusline+=%c, "cursor column
+set statusline+=%l/%L "cursor line/total lines
+set statusline+=\ %P "percent through file
+set laststatus=2
 
 "------ Text editing and searching behavior ------"
 
 set hlsearch                  " turn off highlighting for searched expressions
+" This unsets the last search pattern register by hitting return
+nnoremap <CR> :noh<CR>
 set incsearch                   " highlight as we search however
 hi Search guibg=peru guifg=wheat
 hi Search cterm=NONE ctermfg=green ctermbg=red
@@ -111,6 +130,10 @@ map <C-l> <C-W>l
 " Opens a new tab with the current buffer's path
 map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
+" Move between buffers
+nmap <C-p> <Esc>:bp<CR>
+nmap <C-n> <Esc>:bn<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -130,6 +153,9 @@ inoremap ()     ()
 " Complete whole filenames/lines with a quicker shortcut key in insert mode
 inoremap <C-f> <C-x><C-f>
 inoremap <C-l> <C-x><C-l>
+
+" Toggle spell checking on and off with `leader s`
+nmap <silent> <leader>s :set spell!<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
@@ -157,6 +183,9 @@ endfunction
 
 
 "------ Filetypes ------"
+
+" markdown
+au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
 
 " Vimscript
 autocmd FileType vim setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4
@@ -190,6 +219,10 @@ autocmd FileType css setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 " autocmd BufRead,BufNewFile *.json setfiletype javascript
 autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 let javascript_enable_domhtmlcss=1
+
+" spell check per filetype
+autocmd FileType markdown setlocal spell
+autocmd BufRead,BufNewFile *.md setlocal spell
 
 augroup HighlightTrailingSpaces
   autocmd!
