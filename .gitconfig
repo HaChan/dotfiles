@@ -34,3 +34,7 @@
   updatepullreq = !sh -c 'git commit -a --amend && git push origin $1 -f' -
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
   d = difftool
+  list-untrack = ls-files -o --exclude-standard --full-name # list untracked files
+  list-modified = ls-files -m --exclude-standard --full-name # list modified files.
+  list-all = ls-files -mo --exclude-standard --full-name # list files changed and untracked files
+  addall = ! git add $(git list-all)
