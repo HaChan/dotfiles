@@ -23,6 +23,8 @@
   untracked = red bold
 [core]
 	excludesfile = ~/.gitignore
+	autocrlf = input
+	longpaths = true
 [diff]
   tool = vimdiff
   prompt = false
@@ -38,3 +40,8 @@
   list-modified = ls-files -m --exclude-standard --full-name # list modified files.
   list-all = ls-files -mo --exclude-standard --full-name # list files changed and untracked files
   addall = ! git add $(git list-all)
+  untrack = update-index --assume-unchanged
+  previous-version = !sh -c 'git reset HEAD~1 $1 && git checkout $1'
+  show-diff-files = ! git list-all | uniq | xargs bash -c '</dev/tty vim "$@"'
+  show-current-commited = ! git diff-tree --no-commit-id --name-only -r HEAD | uniq | xargs bash -c '</dev/tty vim "$@"'
+  rescue = !git fsck --full --no-reflogs --unreachable --lost-found | grep commit | cut -d\\  -f3 | xargs -n 1 git log -n 1 --pretty=oneline
