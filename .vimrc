@@ -6,16 +6,23 @@ if version >= 700
 autocmd!
 
 " Enable 256bit color for console vim. Default is 8 bits.. most themes require a lot more.. 16-256.
+
 set t_Co=256
+
 set background=light
-"colors desert
+colors jellybeans
+
+" adjust color
+syntax on
 
 " pathogen config
 call pathogen#infect()
 call pathogen#helptags()
 
+" Common configs
 set nocompatible                " break away from old vi compatibility
 set fileformats=unix,dos,mac    " support all three newline formats
+set fileencodings=ucs-bom,utf-8,sjis,default
 set viminfo=                    " don't use or save viminfo files
 set encoding=utf-8
 set hidden                      " hides buffers instead of closing them (allow open a new file while on unwritten changed file)
@@ -24,6 +31,7 @@ set undolevels=1000             " use many muchos levels of undo
 set pastetoggle=<F2>            " when in insert mode, press <F2> to go to paste mode, where you can paste mass data that won't be autoindented
 set switchbuf=useopen           " reveal already opened files from the quickfix window instead of opening new buffers
 set undofile                    " create .un~ file when edit a file.
+" set autochdir                   " change directories upon opening a file
 
 "------ Console UI & Text display ------"
 set cmdheight=2                 " explicitly set the height of the command line
@@ -43,13 +51,16 @@ set shortmess=atI               " shorten messages and don't show intro
 set wildmenu                    " turn on wild menu :e <Tab>
 set wildmode=list:longest       " set wildmenu to list choice
 set wildignore=*.swp,*.bak,*.pyc,*.class
-set cul cuc                     " highlight current line
 "set cursorline cursorcolumn
 set colorcolumn=81
-hi CursorLine term=none cterm=none ctermbg=0
-hi CursorColumn term=none cterm=none ctermbg=0
-" adjust color
-syntax on
+set cul cuc                     " highlight current line
+hi CursorLine cterm=NONE ctermbg=8 ctermfg=NONE guibg=darkred guifg=white
+hi CursorColumn cterm=NONE ctermbg=8 ctermfg=NONE guibg=darkred guifg=white
+
+"set none background
+hi Normal ctermbg=none
+hi NonText ctermbg=none
+
 " set mispelled text highlight to underline
 hi clear SpellBad
 hi SpellBad cterm=underline
@@ -104,8 +115,21 @@ set preserveindent              " save as much indent structure as possible
 filetype on
 filetype plugin indent on       " load filetype plugins and indent settings
 
+"folding"
+setlocal foldmethod=indent
+setlocal foldignore=
+hi Folded ctermbg=8
+
+"------Remapping leader key to space------"
+let mapleader=" "
+
 "------Miscellaneous------"
 set tags=./tags;
+
+"------Explorer Mode------"
+let g:netrw_liststyle=3 "set list style similar to NerdTree
+
+nnoremap <leader>e :E %:h<cr>
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -133,6 +157,33 @@ map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 " Move between buffers
 nmap <C-p> <Esc>:bp<CR>
 nmap <C-n> <Esc>:bn<CR>
+
+" Scroll other window
+nmap <leader>d <C-W>W<C-D><C-W>W
+nmap <leader>u <C-W>W<C-U><C-W>W
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Resizing Windows
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Vertically resizing
+map <leader>k <C-w>+
+map <leader>j <C-w>-
+map <leader>h <C-w><
+map <leader>l <C-w>>
+
+"Auto resizing windows
+map <leader>= <C-w>=
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Quickfix list
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"jump to next and previous entry
+nnoremap <leader>p :cprev<CR>
+nnoremap <leader>n :cnext<CR>
+
+"jump to next and previous file
+nnoremap <leader>fp :cpfile<CR>
+nnoremap <leader>fn :cnfile<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
@@ -181,6 +232,79 @@ function! VisualSelection(direction, extra_filter) range
     let @" = l:saved_reg
 endfunction
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => PLUGIN SECTION
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+"------ Neocomplcache ------"
+let g:neocomplcache_enable_at_startup = 1
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+
+" Enable heavy features.
+" Use camel case completion.
+"let g:neocomplcache_enable_camel_case_completion = 1
+" Use underbar completion.
+"let g:neocomplcache_enable_underbar_completion = 1
+
+" Define dictionary.
+let g:neocomplcache_dictionary_filetype_lists = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplcache_keyword_patterns')
+    let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplcache_force_omni_patterns')
+  let g:neocomplcache_force_omni_patterns = {}
+endif
+let g:neocomplcache_force_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_force_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+let g:neocomplcache_force_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+"------ Git Gutter ------"
+
+let g:gitgutter_override_sign_column_highlight = 0
+let g:gitgutter_highlight_lines = 0
+
+highlight SignColumn ctermbg=0
+highlight SignColumn guibg=0
+highlight GitGutterAddLine ctermbg=8
+
+"------ Ctrlp ------"
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_map = '<leader>t'
+
+
+"------ Gundo ------"
+nnoremap <F5> :GundoToggle<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "------ Filetypes ------"
 runtime macros/matchit.vim
@@ -215,6 +339,9 @@ autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 
 " CSS
 autocmd FileType css setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+
+" Scala
+autocmd FileType scala setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
 " JavaScript
 " autocmd BufRead,BufNewFile *.json setfiletype javascript
