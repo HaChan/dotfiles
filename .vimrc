@@ -107,8 +107,8 @@ set autoindent smartindent      " set the cursor at same indent as line above
 set smartindent                 " try to be smart about indenting (C-style)
 set expandtab                   " expand <Tab>s with spaces; death to tabs!
 set shiftwidth=2                " spaces for each step of (auto)indent
-set softtabstop=2               " set virtual tab stop (compat for 8-wide tabs)
-set tabstop=2                   " for proper display of files with tabs
+set softtabstop=2               " set virtual tab stop (compat for 8-wide tabs) | number of spaces in tab when editing
+set tabstop=2                   " for proper display of files with tabs | number of visual spaces per TAB
 set shiftround                  " always round indents to multiple of shiftwidth
 set copyindent                  " use existing indents for new indents
 set preserveindent              " save as much indent structure as possible
