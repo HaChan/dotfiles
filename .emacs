@@ -97,5 +97,8 @@
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (setq org-log-done 'time)
 (global-font-lock-mode 1)
+(add-to-list 'org-emphasis-alist
+             '("*" (:foreground "red")
+               ))
 
 (global-visual-line-mode 1)
