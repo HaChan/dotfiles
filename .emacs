@@ -1,3 +1,5 @@
+(setq max-specpdl-size 5)  ; default is 1000, reduce the backtrace level
+
 ;; Enable line number
 (global-linum-mode 1)
 (column-number-mode 1)
@@ -90,15 +92,8 @@
  (eq window-system 'x)
  (color-theme-billw))
 
-;; Setup org-mode
+;; Org-mode settings
 (require 'org)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(setq org-log-done 'time)
-(global-font-lock-mode 1)
-(add-to-list 'org-emphasis-alist
-             '("*" (:foreground "red")
-               ))
-
-(global-visual-line-mode 1)
+(setq org-log-done t)

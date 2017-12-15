@@ -51,6 +51,7 @@ set shortmess=atI               " shorten messages and don't show intro
 set wildmenu                    " turn on wild menu :e <Tab>
 set wildmode=list:longest       " set wildmenu to list choice
 set wildignore=*.swp,*.bak,*.pyc,*.class
+set wildignorecase
 "set cursorline cursorcolumn
 set colorcolumn=81
 set cul cuc                     " highlight current line
