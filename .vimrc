@@ -7,6 +7,10 @@ autocmd!
 
 " Enable 256bit color for console vim. Default is 8 bits.. most themes require a lot more.. 16-256.
 
+" pathogen config
+call pathogen#infect()
+call pathogen#helptags()
+
 set t_Co=256
 
 set background=light
@@ -14,10 +18,6 @@ colors jellybeans
 
 " adjust color
 syntax on
-
-" pathogen config
-call pathogen#infect()
-call pathogen#helptags()
 
 " Common configs
 set nocompatible                " break away from old vi compatibility

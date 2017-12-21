@@ -25,6 +25,7 @@
 	excludesfile = ~/.gitignore
 	autocrlf = input
 	longpaths = true
+	editor = vi
 [diff]
   tool = vimdiff
   prompt = false
