@@ -51,3 +51,9 @@ nb-configuration.xml
 
 # ctags
 tags
+
+# bower
+!.bowerrc
+
+public
+log

@@ -16,10 +16,14 @@ set t_Co=256
 set background=light
 colors jellybeans
 
+"------Remapping leader key to space------"
+let mapleader=" "
+
 " adjust color
 syntax on
 
 " Common configs
+set clipboard=unnamed
 set nocompatible                " break away from old vi compatibility
 set fileformats=unix,dos,mac    " support all three newline formats
 set fileencodings=ucs-bom,utf-8,sjis,default
@@ -83,7 +87,7 @@ set laststatus=2
 
 set hlsearch                  " turn off highlighting for searched expressions
 " This unsets the last search pattern register by hitting return
-nnoremap <CR> :noh<CR>
+nnoremap <leader>n :noh<CR>
 set incsearch                   " highlight as we search however
 hi Search guibg=peru guifg=wheat
 hi Search cterm=NONE ctermfg=green ctermbg=red
@@ -101,6 +105,7 @@ set formatoptions=tcrql         " t - autowrap to textwidth
                                 " r - autoinsert comment leader with <Enter>
                                 " q - allow formatting of comments with :gq
                                 " l - don't format already long lines
+setglobal complete-=i
 
 "------ Indents and tabs ------"
 
@@ -120,9 +125,6 @@ filetype plugin indent on       " load filetype plugins and indent settings
 setlocal foldmethod=indent
 setlocal foldignore=
 hi Folded ctermbg=8
-
-"------Remapping leader key to space------"
-let mapleader=" "
 
 "------Miscellaneous------"
 set tags=./tags;
@@ -162,6 +164,10 @@ nmap <C-n> <Esc>:bn<CR>
 " Scroll other window
 nmap <leader>d <C-W>W<C-D><C-W>W
 nmap <leader>u <C-W>W<C-U><C-W>W
+
+" Move between tabs
+nmap <tab> gt
+nmap <S-tab> gT
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Resizing Windows
@@ -293,7 +299,7 @@ let g:gitgutter_override_sign_column_highlight = 0
 let g:gitgutter_highlight_lines = 0
 
 highlight SignColumn ctermbg=0
-highlight SignColumn guibg=0
+"highlight SignColumn guibg=0
 highlight GitGutterAddLine ctermbg=8
 
 "------ Ctrlp ------"
@@ -325,6 +331,10 @@ autocmd Filetype lisp,scheme setlocal equalprg=~/.vim/bin/lispindent.lisp expand
 " Ruby
 autocmd FileType ruby,rb,erb setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 
+au BufNewFile,BufRead *.json.jbuilder set ft=ruby
+
+autocmd BufNewFile,BufRead *.slim setlocal filetype=slim
+
 " Python
 autocmd FileType python,py setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 
@@ -353,11 +363,18 @@ let javascript_enable_domhtmlcss=1
 autocmd FileType markdown setlocal spell
 autocmd BufRead,BufNewFile *.md setlocal spell
 
+autocmd FileType netrw setl bufhidden=delete
+
 augroup HighlightTrailingSpaces
   autocmd!
   autocmd VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
   autocmd VimEnter,WinEnter * match TrailingSpaces /\s\+$/
 augroup END
+
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
+
+set rtp+=/usr/local/opt/fzf
 
 "------ END VIM-500 ------"
 
