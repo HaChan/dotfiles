@@ -8,8 +8,21 @@ autocmd!
 " Enable 256bit color for console vim. Default is 8 bits.. most themes require a lot more.. 16-256.
 
 " pathogen config
-call pathogen#infect()
-call pathogen#helptags()
+" call pathogen#infect()
+" call pathogen#helptags()
+
+" Plugins will be downloaded under the specified directory.
+call plug#begin('~/.vim/plugged')
+
+" Declare the list of plugins.
+Plug 'nanotech/jellybeans.vim'
+Plug '~/.fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'pangloss/vim-javascript'
+
+" List ends here. Plugins become visible to Vim after this call.
+call plug#end()
 
 set t_Co=256
 
@@ -23,7 +36,7 @@ let mapleader=" "
 syntax on
 
 " Common configs
-set clipboard=unnamed
+set clipboard=unnamedplus
 set nocompatible                " break away from old vi compatibility
 set fileformats=unix,dos,mac    " support all three newline formats
 set fileencodings=ucs-bom,utf-8,sjis,default
@@ -59,8 +72,8 @@ set wildignorecase
 "set cursorline cursorcolumn
 set colorcolumn=81
 set cul cuc                     " highlight current line
-hi CursorLine cterm=NONE ctermbg=8 ctermfg=NONE guibg=darkred guifg=white
-hi CursorColumn cterm=NONE ctermbg=8 ctermfg=NONE guibg=darkred guifg=white
+" hi CursorLine cterm=NONE ctermbg=8 ctermfg=NONE guibg=darkred guifg=white
+" hi CursorColumn cterm=NONE ctermbg=8 ctermfg=NONE guibg=darkred guifg=white
 
 "set none background
 hi Normal ctermbg=none
@@ -302,11 +315,6 @@ highlight SignColumn ctermbg=0
 "highlight SignColumn guibg=0
 highlight GitGutterAddLine ctermbg=8
 
-"------ Ctrlp ------"
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-let g:ctrlp_map = '<leader>t'
-
-
 "------ Gundo ------"
 nnoremap <F5> :GundoToggle<CR>
 
@@ -373,8 +381,6 @@ augroup END
 
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
-
-set rtp+=/usr/local/opt/fzf
 
 "------ END VIM-500 ------"
 
