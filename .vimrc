@@ -15,8 +15,9 @@ autocmd!
 call plug#begin('~/.vim/plugged')
 
 " Declare the list of plugins.
-Plug 'nanotech/jellybeans.vim'
-Plug '~/.fzf'
+Plug 'morhetz/gruvbox'
+"Plug 'nanotech/jellybeans.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'pangloss/vim-javascript'
@@ -26,14 +27,23 @@ call plug#end()
 
 set t_Co=256
 
-set background=light
-colors jellybeans
+set background=dark
+colors gruvbox
 
 "------Remapping leader key to space------"
 let mapleader=" "
 
 " adjust color
 syntax on
+
+" Windows wsl copy clipboard
+let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
+if executable(s:clip)
+    augroup WSLYank
+        autocmd!
+        autocmd TextYankPost * if v:event.operator ==# 'y' | call system('cat |' . s:clip, @0) | endif
+    augroup END
+endif
 
 " Common configs
 set clipboard=unnamedplus
