@@ -20,6 +20,7 @@ Desktop.ini
 !.tmux.conf
 !.emacs
 !.keep
+!.config
 *~
 
 ##### Editor #####
