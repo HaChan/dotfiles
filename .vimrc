@@ -334,6 +334,8 @@ nnoremap <F5> :GundoToggle<CR>
 "------ Filetypes ------"
 runtime macros/matchit.vim
 
+" au BufNewFile postmortem-*.md 0r ~/postmortem-templates/templates/postmortem-template-srebook.md
+
 " markdown
 au BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
 
