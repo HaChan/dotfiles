@@ -1,3 +1,4 @@
+vim.cmd('set clipboard=unnamedplus')
 vim.o.guicursor = ""
 vim.o.list = true
 vim.o.listchars = "trail:¬"

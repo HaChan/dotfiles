@@ -29,20 +29,36 @@ for _, dom in ipairs(wsl_domains) do
 end
 
 
-config.launch_menu = is_windows and { { args = { "cmd.exe" }, domain = { DomainName = "local" } } } or nil
+config.launch_menu = (is_windows and {
+  {
+    args = { "cmd.exe" },
+    domain = {
+      DomainName = "local"
+    }
+  }
+}) or (is_linux and {
+  {
+    label = "Bash Login Shell",
+    args = { "/bin/bash", "--login" },
+    domain = { DomainName = "local" }
+  }
+}) or {}
+
+
 config.set_environment_variables = {
   TERMINFO_DIRS = "/home/" .. (os.getenv("USERNAME") or os.getenv("USER")) .. "/.nix-profile/share/terminfo",
   WSLENV = "TERMINFO_DIRS",
   prompt = is_windows and "$E]7;file://localhost/$P$E\\$E[32m$T$E[0m $E[35m$P$E[36m$_$G$E[0m " or nil,
 }
 
-config.default_domain = 'WSL:Ubuntu2'
-config.wsl_domains = wsl_domains
+-- config.default_domain = 'WSL:Ubuntu2'
+-- config.wsl_domains = wsl_domains
 -- config.default_prog = { "wsl.exe", "~" }
+-- config.default_prog = {"/bin/bash", "--login"}
 -- config.default_cwd = "/home/hachan"
 
 -- For example, changing the color scheme:
-config.color_scheme = 'Dracula (Official)'
+config.color_scheme = 'Dracula'
 
 config.tab_bar_at_bottom = true
 -- config.use_fancy_tab_bar = false
