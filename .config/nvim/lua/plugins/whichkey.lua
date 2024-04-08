@@ -1,6 +1,5 @@
 -- Useful plugin to show you pending keybinds.
-return {}
---[[
+-- return {}
 return {
   'folke/which-key.nvim',
   opts = {},
@@ -25,4 +24,3 @@ return {
 
   end
 }
-]]
