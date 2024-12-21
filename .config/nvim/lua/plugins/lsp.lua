@@ -11,7 +11,17 @@ return {
     { 'j-hui/fidget.nvim', opts = {} },
 
     -- Additional lua configuration, makes nvim stuff amazing!
-    'folke/neodev.nvim',
+    {
+      'folke/lazydev.nvim',
+      ft = 'lua', -- only load on lua files
+      opts = {
+        library = {
+          -- See the configuration section for more details
+          -- Load luvit types when the `vim.uv` word is found
+          { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+        },
+      },
+    }
   },
   config = function ()
     --  This function gets run when an LSP connects to a particular buffer.
@@ -61,6 +71,11 @@ return {
     require('mason').setup()
     require('mason-lspconfig').setup()
 
+    local util = require 'lspconfig.util'
+    -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
     -- Enable the following language servers
     local servers = {
       -- clangd = {},
@@ -80,12 +95,6 @@ return {
       },
     }
 
-    -- Setup neovim lua configuration
-    require('neodev').setup()
-
-    -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
     -- Ensure the servers above are installed
     local mason_lspconfig = require 'mason-lspconfig'

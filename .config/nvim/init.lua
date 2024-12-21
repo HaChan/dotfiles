@@ -15,10 +15,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 function DeleteTrailingWS()
     local save_cursor = vim.fn.getpos('.')
-    local current_line = vim.fn.line('.')
+    -- local current_line = vim.fn.line('.')
     vim.cmd([[ %s/\s\+$//e ]])
     vim.fn.setpos('.', save_cursor)
-    vim.fn.cursor(current_line, 1)
+    -- vim.fn.cursor({current_line, 1})
 end
 -- Automatically call DeleteTrailingWhitespace() before saving a file
 vim.cmd([[autocmd BufWritePre * lua DeleteTrailingWS()]])

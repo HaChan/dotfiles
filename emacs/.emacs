@@ -45,8 +45,8 @@
 
 ;; Setup external libraries
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0/")
-(require 'cl-lib)
+;;(add-to-list 'load-path "~/.emacs.d/lisp/color-theme-6.6.0/")
+;;(require 'cl-lib)
 
 
 ;; Custom functions
@@ -84,13 +84,13 @@
 (setq uniquify-buffer-name-style 'forward)
 
 ;; Setup color theme
-(require 'color-theme)
-(setq color-theme-is-global t)
-(color-theme-initialize)
-(color-theme-billw)
-(and
- (eq window-system 'x)
- (color-theme-billw))
+;; (require 'color-theme)
+;; (setq color-theme-is-global t)
+;; (color-theme-initialize)
+;; (color-theme-billw)
+;; (and
+ ;; (eq window-system 'x)
+ ;; (color-theme-billw))
 
 ;; Org-mode settings
 (require 'org)
